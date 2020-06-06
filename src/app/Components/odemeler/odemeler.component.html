@@ -1,0 +1,109 @@
+<div class="container-small">
+    <div class="row mat-elevation-z8">
+
+        <div class="col-md-4">
+
+          <input  #odemeId matInput style="display: none;" [formControl]="vdOdemeId">
+
+
+                  <mat-form-field appearance="outline" >
+                    <mat-label >Ödeme Türü</mat-label>
+                    <mat-select [(value)]="valueOdemeTuru" [formControl]="vdOdemeturu" required>
+                    <mat-option id="odemeTuruSecim" *ngFor="let item of odemeTuru | keyvalue"  [value]="item.value"  > {{item.key}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="vdOdemeturu.invalid">{{getValidationErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                
+                  <mat-form-field appearance="outline">
+                    <mat-label>Ödeme Günü Tarihi</mat-label>
+                    <input   matInput [matDatepicker]="picker3" [value]="odemeTarih | date:'yyyy-MM-dd'" (ngModelChange)="odemeTarih = $event"   [formControl]="vdOdemeTarih" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker3" ></mat-datepicker-toggle>
+                    <mat-datepicker #picker3 ></mat-datepicker>
+                    <mat-error *ngIf="vdOdemeTarih.invalid">{{getValidationErrorMessage()}}</mat-error>
+                </mat-form-field>
+                  
+                <mat-form-field appearance="outline">
+                    <mat-label >Firma Adı </mat-label>
+                    <input type="text" #firmaAdi matInput  maxlength="50" [formControl]="vdFirmaAdi" required>
+                    <mat-error *ngIf="vdFirmaAdi.invalid">{{getValidationErrorMessage()}}</mat-error>
+                  </mat-form-field> 
+
+                  <mat-form-field appearance="outline">
+                    <mat-label >Ödeme Tutarı </mat-label>
+                    <input type="number" #odenecekTutar matInput  maxlength="50" [formControl]="vdOdemeTutar" required>
+                    <mat-error *ngIf="vdOdemeTutar.invalid">{{getValidationErrorMessage()}}</mat-error>
+                  </mat-form-field> 
+
+                  <mat-form-field appearance="outline">
+                    <mat-label >Kime</mat-label>
+                    <input type="text" #kime matInput  maxlength="50" [formControl]="vdKime" required>
+                    <mat-error *ngIf="vdKime.invalid">{{getValidationErrorMessage()}}</mat-error>
+                  </mat-form-field> 
+
+                  <p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
+
+                  <button id="Guncelle" mat-raised-button style="width:80% ; display: none;" color="primary" (click)="OdemeGuncelle(odemeId.value,firmaAdi.value,+odenecekTutar.value,kime.value)">Güncelle</button>
+
+                  <button id="Kaydet" mat-raised-button style="width:80% ;" color="primary" (click)="OdemeAdd(firmaAdi.value,+odenecekTutar.value,kime.value)">Kaydet</button>
+                  <br><br>
+        </div>
+        <div class="col-md-8">
+
+          <!-- Silme ve Ödeme Onayı Ekranı PrimeNg -->
+          <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
+         
+
+            <mat-table [dataSource]="dataSource" >
+            
+                <ng-container matColumnDef="odemeTarih">
+                  <mat-header-cell *matHeaderCellDef> Ödeme Günü Tarihi</mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.odemeTarihString}} </mat-cell>
+                </ng-container>
+              
+                
+                <ng-container matColumnDef="firmaAdi">
+                  <mat-header-cell *matHeaderCellDef> Firma Adı </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.firmaAdi}} </mat-cell>
+                </ng-container>
+              
+               
+                <ng-container matColumnDef="odenecekTutar">
+                  <mat-header-cell *matHeaderCellDef> Ödenecek Tutar </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.odenecekTutar}} </mat-cell>
+                </ng-container>
+              
+                
+                <ng-container matColumnDef="kime">
+                  <mat-header-cell *matHeaderCellDef> Kime </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.kime}} </mat-cell>
+                </ng-container>
+    
+                <ng-container matColumnDef="odemeTuru">
+                  <mat-header-cell *matHeaderCellDef> Ödeme Türü </mat-header-cell>
+                  <mat-cell  *matCellDef="let element" >{{element.odemeTuruString}}</mat-cell>
+                </ng-container>
+                
+                <ng-container matColumnDef="islemler">
+                  <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> 
+                    <a mat-icon-button matTooltip="Sil"  (click)="OdemeSilHazirlik(element.odemeId)">
+                      <mat-icon>delete</mat-icon>
+                        </a>
+                        <a mat-icon-button matTooltip="Guncelle" (click)="OdemeGuncelleHazirlik(element.odemeId,element.odemeTarih  ,element.firmaAdi,element.odenecekTutar,element.kime,element.odemeTuru,element.odemeTuruString)">
+                      <mat-icon>update</mat-icon>
+                        </a>
+                        <a mat-icon-button matTooltip="Ödendi" (click)="OdemeOdendiHazirlik(element.odemeId)">
+                          <mat-icon>done</mat-icon>
+                            </a>
+                  </mat-cell>
+                </ng-container>
+              
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+              <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+
+</div>

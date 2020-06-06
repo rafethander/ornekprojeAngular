@@ -1,0 +1,139 @@
+
+
+<div class=" container-small">
+    <div class="row mat-elevation-z8">
+        <div class=" col-md-5" >
+
+          <input style="display: none;" #alinanUrunId>
+
+            <mat-form-field appearance="outline">
+                <mat-label >Tedarikçi Adı </mat-label>
+                <input #tedarikciAdi matInput required maxlength="50" [formControl]="vdTedarikciAdi">
+                <mat-error *ngIf="vdTedarikciAdi.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field> 
+
+              <mat-form-field appearance="outline">
+              <mat-label>Alım Tarihi</mat-label>
+              <input    matInput [matDatepicker]="picker3" [ngModel]="alimTarih | date:'yyyy-MM-dd'" (ngModelChange)="alimTarih = $event"   [formControl]="vdAlimTarih" required>
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3 ></mat-datepicker>
+              <mat-error *ngIf="vdAlimTarih.invalid">{{getValidationErrorMessage()}}</mat-error>
+            </mat-form-field>
+            
+
+              <mat-form-field  disableRipple appearance="outline">
+                <mat-label>Fatura No</mat-label>
+                <input #faturaNo matInput required maxlength="10" type="text" [formControl]="vdFaturaNo">
+                <mat-error *ngIf="vdFaturaNo.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label >Ürün Adı</mat-label>
+                <input #urunAdi matInput required maxlength="35" type="text" [formControl]="vdUrunAdi">
+                <mat-error *ngIf="vdUrunAdi.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label >Birim</mat-label>
+                <input #birim matInput required maxlength="20" type="text" [formControl]="vdBirim">
+                <mat-error *ngIf="vdBirim.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field>
+               
+              <mat-form-field  appearance="outline">
+                <mat-label>Miktar</mat-label>
+                <input #miktar matInput required type="number" [formControl]="vdMiktar">
+                <mat-error *ngIf="vdMiktar.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field>
+              
+              <mat-form-field  appearance="outline">
+                <mat-label>Fiyat</mat-label>
+                <input #fiyat matInput required type="number" [formControl]="vdFiyat">
+                <mat-error *ngIf="vdFiyat.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field>
+
+              <mat-form-field  appearance="outline">
+                <mat-label>Kdv</mat-label>
+                <input #kdv matInput required type="number" [formControl]="vdKdv">
+                <mat-error *ngIf="vdKdv.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field>
+
+
+              <p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
+
+
+              <button id="Guncelle" mat-raised-button color="primary"  style=" width:80%; display:none;"
+              (click)="AlinanUrunUpdate(alinanUrunId.value,tedarikciAdi.value,faturaNo.value,urunAdi.value,birim.value,+miktar.value,+fiyat.value,+kdv.value)">Guncelle</button>
+
+              <button id="Kaydet" mat-raised-button style="width:80% ;" color="primary" (click)="AlinanUrunAdd(tedarikciAdi.value,faturaNo.value,urunAdi.value,birim.value,+miktar.value,+fiyat.value,+kdv.value)">Kaydet</button>
+              <br><br>
+              
+        </div>
+        <div class="col-md-7">
+
+          <!-- Ekran Silme Onayı -->
+          <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
+                    <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+                                    
+                      <ng-container matColumnDef="tedarikciAdi">
+                    <th mat-header-cell *matHeaderCellDef> Tedarikçi Adı </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tedarikciAdi}} </td>
+                    </ng-container>
+
+                  <ng-container matColumnDef="urunAdi">
+                    <th mat-header-cell *matHeaderCellDef> Ürün Adı </th>
+                    <td mat-cell *matCellDef="let element"> {{element.urunAdi}} </td>
+                  </ng-container>
+
+
+                  <ng-container matColumnDef="fiyat">
+                    <th mat-header-cell *matHeaderCellDef> Açıklama </th>
+                    <td mat-cell *matCellDef="let element"> {{element.fiyat}} </td>
+                  </ng-container>
+
+
+                  <ng-container matColumnDef="islemler">
+                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <td mat-cell *matCellDef="let element">  
+                      <a mat-icon-button matTooltip="Sil" (click)="AlinanUrunSilHazirlik(element.alinanUrunId)"  >
+                    <mat-icon>delete</mat-icon>
+                      </a>
+                      <a #btnGuncelle mat-icon-button matTooltip="Guncelle" (click)="AlinanUrunUpdateHazirlik(element.alinanUrunId,element.tedarikciAdi,element.alimTarih,element.faturaNo,element.urunAdi,element.birim,element.miktar,element.fiyat,element.kdv)">
+                    <mat-icon>update</mat-icon>
+                      </a>
+                      </td>
+                  </ng-container>
+
+
+              <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                  <div class="example-element-detail"
+                      [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                    <div class="example-element-description">
+                      <mat-label><strong> Tedarikçi Adi:</strong>  {{element.tedarikciAdi}} </mat-label> <br>
+                      <mat-label><strong> Alım Tarihi:</strong> {{element.alimTarihString}} </mat-label> <br>
+                      <mat-label><strong> Fatura Numarası:</strong> {{element.faturaNo}} </mat-label> <br>
+                    <mat-label><strong> Ürün Adı:</strong> {{element.urunAdi}} </mat-label> <br>
+                    <mat-label><strong> Birim:</strong> {{element.birim}} </mat-label> <br>
+                    <mat-label><strong> Miktar:</strong> {{element.miktar}} </mat-label> <br>
+                    <mat-label><strong> Fiyat:</strong>  {{element.fiyat}} /  </mat-label> <br>
+                    <mat-label><strong> Kdv:</strong> {{element.kdv}} </mat-label> <br>
+                      <!-- <span class="example-element-description-attribution"> --Detay Bilgiler </span> -->
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+          class="example-element-row"
+          [class.example-expanded-row]="expandedElement === element"
+          (click)="expandedElement = expandedElement == element ? null : element">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

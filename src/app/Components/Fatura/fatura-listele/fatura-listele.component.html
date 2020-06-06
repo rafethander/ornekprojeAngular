@@ -1,0 +1,121 @@
+<div class=" container-small">
+    <div class="row mat-elevation-z8">
+        <div class="col-md-12">
+
+        
+              <mat-form-field appearance="outline">
+                <mat-label>Fatura Başlangıç Tarihi</mat-label>
+                <input  matInput [matDatepicker]="picker1" [ngModel]="dateBaslangic | date:'yyyy-MM-dd'" (ngModelChange)="dateBaslangic=$event" >
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Fatura Bitiş Tarihi</mat-label>
+                <input  matInput  [matDatepicker]="picker2" [ngModel]="dateBitis | date:'yyyy-MM-dd'" (ngModelChange)="dateBitis=$event" >
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+
+            
+            <p-dropdown [options]="musteriListesi" optionLabel="musteriAdi"  [(ngModel)]="valueMusteriListesi"  placeholder="Müşteri Adı" filter="true" emptyFilterMessage="Sonuç Bulunamadı." [style]="{'margin-top':'-10px','height': '50px','width':'260px'}"  ></p-dropdown>
+
+              <hr style="width: 70%; float: left;">
+            </div>
+          <div class="col-md-5">
+
+            <mat-form-field appearance="outline">
+              <mat-label >Fatura Numarası </mat-label>
+              <input #faturaNo type="number" matInput   maxlength="50">
+            </mat-form-field> 
+          </div>
+
+            <div class=" offset-4">
+
+              <p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
+              
+              <button mat-fab color="primary" matTooltip="Ara" (click)="FaturaAra(+faturaNo.value)" >
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+            <div class=" col-md-12">
+
+              <!-- Silme Onay -->
+              <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
+              
+              <div *ngIf="faturaListe.length>0 else secim" >
+
+                <table mat-table [dataSource]="dataSource">
+                    
+                    
+                  <ng-container matColumnDef="faturaNo">
+                    <th mat-header-cell *matHeaderCellDef> Fatura No </th>
+                    <td mat-cell *matCellDef="let element"> {{element.faturaNo}} </td>
+                  </ng-container>
+              
+                  
+                  <ng-container matColumnDef="tarih">
+                    <th mat-header-cell *matHeaderCellDef> Fatura Tarih </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tarihString}} </td>
+                  </ng-container>
+              
+                  
+                  <ng-container matColumnDef="musteriAdi">
+                    <th mat-header-cell *matHeaderCellDef> Müşteri Adı </th>
+                    <td mat-cell *matCellDef="let element"> {{element.musteriAdi}} </td>
+                  </ng-container>
+              
+              
+                  <ng-container matColumnDef="tutar">
+                    <th mat-header-cell *matHeaderCellDef> Tutar </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tutar}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="kdvTutar">
+                      <th mat-header-cell *matHeaderCellDef> Kdv Tutar </th>
+                      <td mat-cell *matCellDef="let element"> {{element.kdvTutar}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="toplamTutar">
+                      <th mat-header-cell *matHeaderCellDef> Toplam Tutar </th>
+                      <td mat-cell *matCellDef="let element"> {{element.toplamTutar}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="islemler">
+                      <th mat-header-cell *matHeaderCellDef> </th>
+                      <td mat-cell *matCellDef="let element">  
+                          <a mat-icon-button matTooltip="Sil" (click)="FaturaSilHazirlik(+element.faturaNo)" >
+                          <mat-icon>delete</mat-icon>
+                            </a> 
+                            <a mat-icon-button routerLink="/faturaEkle/{{element.faturaNo}}"  matTooltip="Güncelle" >
+                              <mat-icon>update</mat-icon>
+                            </a>
+                          </td>
+                    </ng-container>
+              
+              
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+
+                
+              </div>
+
+              <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+
+              <ng-template #secim>
+                <div>
+                  <i>
+                    Herhangi bir filtreleme yapılmazsa o günden itibaren bir önceki yılda dahil listeleme yapılmaktadır.
+                  </i>
+                </div>
+               </ng-template>
+               
+                
+                 
+
+            </div>
+              
+    </div>
+</div>

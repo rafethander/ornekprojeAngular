@@ -1,0 +1,130 @@
+
+<div class=" container-small">
+    <div class="row mat-elevation-z8">   
+        <div class="col-md-5 "  >
+      
+                
+
+                  <input  #musteriId matInput style="display: none;" [formControl]="vdMusteriId">
+                          
+                  
+                  <mat-form-field   appearance="outline">
+                    <mat-label  >Müşteri Adı</mat-label>
+                    <input type="text" #musteriAdi matInput  [formControl]="vdMusteriAdi" maxlength="35" required>
+                    <mat-error *ngIf="vdMusteriAdi.invalid">{{getValidationErrorMessage()}}</mat-error>
+                  </mat-form-field>
+
+                    <mat-form-field  appearance="outline">
+                      <mat-label>Vergi Dairesi</mat-label>
+                      <input type="text" #vergiDaire matInput  [formControl]="vdVergiDaire" maxlength="35" required>
+                      <mat-error *ngIf="vdVergiDaire.invalid">{{getValidationErrorMessage()}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field  appearance="outline">
+                      <mat-label>Vergi Numarası</mat-label>
+                      <input type="text" #vergiDaireNo matInput  [formControl]="vdVergiDaireNo" maxlength="35" required>
+                      <mat-error *ngIf="vdVergiDaireNo.invalid">{{getValidationErrorMessage()}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Adres</mat-label>
+                      <textarea #adres matInput [formControl]="vdAdres" maxlength="140" required></textarea>
+                      <mat-error *ngIf="vdAdres.invalid">{{getValidationErrorMessage()}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field   appearance="outline">
+                      <mat-label>Açıklama</mat-label>
+                      <input type="text" #aciklama matInput maxlength="100" >
+                    </mat-form-field>
+
+
+                    <p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
+
+
+                    <button id="Guncelle" mat-raised-button color="primary"  style=" width:80%; display:none;"
+                    (click)="MusteriGuncelle(musteriId.value,musteriAdi.value,vergiDaire.value,vergiDaireNo.value,adres.value,aciklama.value)">Guncelle</button>
+
+
+                    <button  mat-raised-button  id="Kaydet"   style="width:80% ;" color="primary" 
+                    (click)="MusteriAdd(musteriAdi.value,vergiDaire.value,vergiDaireNo.value,adres.value,aciklama.value)">Kaydet</button>
+
+                    <br><br>
+                        
+
+
+              
+                              
+        </div>
+        <div class=" col-md-7">   
+          
+          <!-- Ekran Silme Onayı -->
+          <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
+                        <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+                          
+                          <ng-container matColumnDef="musteriAdi">
+                        <th mat-header-cell *matHeaderCellDef> Müşteri Adi </th>
+                        <td mat-cell *matCellDef="let element"> {{element.musteriAdi}} </td>
+                        </ng-container>
+
+  
+                      <ng-container matColumnDef="vergiDaire">
+                        <th mat-header-cell *matHeaderCellDef> Vergi Dairesi </th>
+                        <td mat-cell *matCellDef="let element"> {{element.vergiDaire}} </td>
+                      </ng-container>
+
+ 
+                      <ng-container matColumnDef="aciklama">
+                        <th mat-header-cell *matHeaderCellDef> Açıklama </th>
+                        <td mat-cell *matCellDef="let element"> {{element.aciklama}} </td>
+                      </ng-container>
+
+                      
+                      <ng-container matColumnDef="islemler">
+                        <th mat-header-cell *matHeaderCellDef>  </th>
+                        <td mat-cell *matCellDef="let element">  
+                          
+                      
+                          <a mat-icon-button matTooltip="Sil" (click)="MusteriSilHazirlik(element.musteriId)">
+                        <mat-icon>delete</mat-icon>
+                          </a>
+                          <a mat-icon-button matTooltip="Guncelle" (click)="MusteriGuncelleHazirlik(element.musteriId,element.musteriAdi,element.adres,element.vergiDaire,element.vergiDaireNo,element.aciklama) "  >
+                        <mat-icon>update</mat-icon>
+                          </a>
+                          </td>
+                      </ng-container>
+
+  
+                  <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                      <div class="example-element-detail"
+                          [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                        <div class="example-element-description">
+
+                          
+                          
+                         <mat-label><strong> Müşteri Adi: </strong>{{element.musteriAdi}} </mat-label> <br>
+                         <mat-label><strong> Vergi Dairesi/Numarası: </strong>  {{element.vergiDaire}} / {{element.vergiDaireNo}} </mat-label> <br>
+                         <mat-label><strong> Adres : </strong>{{element.adres}}</mat-label> <br>
+                          
+                        </div>
+                      </div>
+                    </td>
+                  </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let element; columns: columnsToDisplay;"
+                class="example-element-row"
+                [class.example-expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement == element ? null : element">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+      </table>
+
+          <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+
+          
+        </div>
+    </div>
+</div>
+              

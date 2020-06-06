@@ -1,0 +1,89 @@
+<div class=" container-small">
+    <div class="row mat-elevation-z8">
+
+        <div class=" col-md-5">
+
+          <input type="text" style="display: none;" #satilanUrunId>
+
+            <mat-form-field  appearance="outline">
+                <mat-label>Ürün Adı</mat-label>
+                <input #urunAdi matInput  required maxlength="30" required [formControl]="vdUrunAdi">
+                <mat-error *ngIf="vdUrunAdi.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field>
+              <mat-form-field  appearance="outline">
+                <mat-label>Birim</mat-label>
+                <input #birim matInput  required maxlength="20" required [formControl]="vdBirim">
+                <mat-error *ngIf="vdBirim.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field>
+              <mat-form-field  appearance="outline">
+                <mat-label>Fiyat</mat-label>
+                <input #fiyat matInput required [formControl]="vdFiyat">
+                <mat-error *ngIf="vdFiyat.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field>
+              <mat-form-field  disableRipple appearance="outline">
+                <mat-label>Kdv</mat-label>
+                <input #kdv matInput required [formControl]="vdKdv">
+                <mat-error *ngIf="vdKdv.invalid">{{getValidationErrorMessage()}}</mat-error>
+              </mat-form-field>
+
+
+              <p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
+
+              <button id="Guncelle" mat-raised-button style="width:80% ; display: none;" color="primary"  (click)="SatilanUrunGuncelle(satilanUrunId.value,urunAdi.value,birim.value,+fiyat.value,+kdv.value)">Güncelle</button>
+              
+
+              <button id="Kaydet" mat-raised-button style="width:80% ;" color="primary" (click)="SatilanUrunAdd(urunAdi.value,birim.value,+fiyat.value,+kdv.value)">Kaydet</button>
+              <br><br>
+        </div>
+        <div class=" col-md-7">
+
+
+           <!-- Ekran Silme Onayı -->
+           <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+
+          <mat-table [dataSource]="dataSource" >
+            
+            <ng-container matColumnDef="urunAdi">
+              <mat-header-cell *matHeaderCellDef> Ürün Adı </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.urunAdi}} </mat-cell>
+            </ng-container>
+          
+            
+            <ng-container matColumnDef="birim">
+              <mat-header-cell *matHeaderCellDef> Birim </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.birim}} </mat-cell>
+            </ng-container>
+          
+           
+            <ng-container matColumnDef="fiyat">
+              <mat-header-cell *matHeaderCellDef> Fiyat </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.fiyat}} </mat-cell>
+            </ng-container>
+          
+            
+            <ng-container matColumnDef="kdv">
+              <mat-header-cell *matHeaderCellDef> Kdv </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.kdv}} </mat-cell>
+            </ng-container>
+
+            
+            <ng-container matColumnDef="islemler">
+              <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+              <mat-cell *matCellDef="let element"> 
+                <a mat-icon-button matTooltip="Sil" (click)="SatilanUrunSilHazirlik(element.satilanUrunId)" >
+                  <mat-icon>delete</mat-icon>
+                    </a>
+                    <a #btnGuncelle mat-icon-button matTooltip="Guncelle"  (click)="SatilanUrunGuncelleHazirlik(element.satilanUrunId,element.urunAdi,element.birim,element.fiyat,element.kdv)">
+                  <mat-icon>update</mat-icon>
+                    </a>
+              </mat-cell>
+            </ng-container>
+          
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+
+</div>

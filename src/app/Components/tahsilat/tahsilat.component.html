@@ -1,0 +1,124 @@
+<div class="container-small">
+    <div class="row row mat-elevation-z8" style="margin-top: 10px;">
+
+        <div class="col-md-12">
+            <p-dropdown [options]="musteriListesi" optionLabel="musteriAdi"  [(ngModel)]="valueMusteriListesi" [formControl]="vdMusteriId" placeholder="Müşteri Adı" filter="true" emptyFilterMessage="Sonuç Bulunamadı." [style]="{'margin':'30px 30px','height':'40px','width': '280px'}"  ></p-dropdown>
+
+        
+        <button  mat-raised-button style="margin-left: 10px;" color="primary" (click)="TahsilatGirHazirlik()" >Tahsilat Gir</button>
+        
+        <button  mat-raised-button style="margin: 20px;" color="primary" (click)="TahsilatListele()">Tahsilat Listele</button>
+
+        <!-- 1-Bilgi verme kutsu 2-Silme Ekran Onayı  -->
+        <p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
+        <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
+        </div>
+        
+        <div class="col-md-12">
+
+            <ng-container *ngIf="TahsilatPenceresi">
+                <div style="margin-left: 30px;">
+                    
+                   <strong style="font-size: 15px;">Sayın {{valueMusteriListesi.musteriAdi}}'dan;</strong>
+                    <br><br>
+
+                   <mat-form-field appearance="outline">
+                    <mat-label>Tahsilat Tarihi</mat-label>
+                    <input  matInput [matDatepicker]="picker3" [ngModel]="tahsilatTarih | date:'yyyy-MM-dd'" (ngModelChange)="tahsilatTarih = $event"  [formControl]="vdTahsilatTarih" required>
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <mat-datepicker #picker3></mat-datepicker>
+                    <mat-error *ngIf="vdTahsilatId.invalid">{{getValidationErrorMessage()}}</mat-error>
+                </mat-form-field>
+                
+                
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Tahsilat Türü</mat-label>
+                    <mat-select [(value)]="tahsilatTur" [formControl]="vdTahsilatTuru">
+                      <mat-option *ngFor="let tur of tahsilatTuru | keyvalue" [value]="tur.value" >
+                        {{tur.key}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="vdTahsilatId.invalid">{{getValidationErrorMessage()}}</mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline">
+                    <mat-label>Tahsilat Tutarı</mat-label>
+                    <input #tahsilatTutar type="number" matInput [formControl]="vdTahsilatTutari">
+                    <mat-error *ngIf="vdTahsilatId.invalid">{{getValidationErrorMessage()}}</mat-error>
+                  </mat-form-field>
+
+                  <button  mat-raised-button  color="primary" (click)="TahsilatEkle(+tahsilatTutar.value)" >Tahsilat Ekle</button>
+
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="tahsilatListesi.length>0">
+
+                <table mat-table [dataSource]="dataSource">
+                
+                    <ng-container matColumnDef="musteriAdi" >
+                      <th mat-header-cell *matHeaderCellDef> Müşteri Adı </th>
+                      <td mat-cell *matCellDef="let element" style="width:20%;"> {{element.musteriAdi}} </td>
+                    </ng-container>
+                  
+                   
+                    <ng-container matColumnDef="tarih" style>
+                      <th mat-header-cell *matHeaderCellDef> Tahsilat Tarihi </th>
+                      <td mat-cell *matCellDef="let element" style="width:5%;"> {{element.tahsilatTarihiString}} </td>
+                    </ng-container>
+    
+                 
+                    <ng-container matColumnDef="tur">
+                      <th mat-header-cell *matHeaderCellDef> Tahsilat Türü  </th>
+                      <td mat-cell *matCellDef="let element" style="width:5%;"> {{element.tahsilatTuruString}} </td>
+                    </ng-container>
+                    
+    
+                    <ng-container matColumnDef="tutar">
+                      <th mat-header-cell *matHeaderCellDef> Tahsil Edilen Tutar </th>
+                      <td mat-cell *matCellDef="let element" style="width:8%;">{{element.tahsilatTutar}} </td>
+                    </ng-container>
+
+                    
+                   
+                    <ng-container matColumnDef="islemler">
+                      <th mat-header-cell *matHeaderCellDef>  </th>
+                      <td mat-cell *matCellDef="let element" style="width:5%;" > 
+
+                        <a mat-icon-button matTooltip="Sil" (click)="TahsilatSilHazirlik(element.tahsilatId)" >
+                            <mat-icon>delete</mat-icon>
+                        </a>
+
+                        </td>
+                    </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    
+                  </table>
+                  <div style="margin-top: 20px;">
+                    <strong>
+                      Toplam Fatura Tutarı={{this.toplamFaturaTutar}} 
+                      <br>
+                      Toplam Tahsilat Tutarı={{this.ToplamTahsilatTutar()}}
+                      <br>
+                      Kalan Bakiye={{this.toplamFaturaTutar-this.ToplamTahsilatTutar()}}
+                    </strong> 
+                  </div>
+                  
+            </ng-container>
+            <ng-container #tahsilatYok>
+              <i>
+                Herhangi Bir Tahsilat Bulunmamaktadır.
+              </i>
+              </ng-container>
+            <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+        </div>
+        
+        
+        
+    </div>
+   
+    
+</div>

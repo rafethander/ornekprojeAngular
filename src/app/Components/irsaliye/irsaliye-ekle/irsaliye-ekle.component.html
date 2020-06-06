@@ -1,0 +1,100 @@
+<div class="container-small">
+    <div class="row row mat-elevation-z8" style="margin-top: 10px;">
+        <div class="col-md-4">
+
+          <input style="display: none;" #irsaliyeId>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Irsaliye Tarihi</mat-label>
+                <input  matInput [matDatepicker]="picker3" [ngModel]="irsaliyeTarih | date:'yyyy-MM-dd'" (ngModelChange)="irsaliyeTarih = $event" [formControl]="vdIrsaliyeTarih" required>
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+                <mat-error *ngIf="vdIrsaliyeTarih.invalid">{{getValidationErrorMessage()}}</mat-error>
+            </mat-form-field>
+          
+                    <p-dropdown [options]="musteriListesi" optionLabel="musteriAdi"  [(ngModel)]="valueMusteriListesi" [formControl]="vdMusteriId" placeholder="Müşteri Adı" filter="true" emptyFilterMessage="Sonuç Bulunamadı." [style]="{'height':'50px','width': '280px'}"  ></p-dropdown>
+
+                <mat-form-field appearance="outline" style="margin-top: 15px;">
+                    <mat-label >İrsaliye Numarası </mat-label>
+                    <input #irsaliyeNo type="number" matInput [formControl]="vdIrsaliyeNo" required maxlength="50">
+                    <mat-error *ngIf="vdIrsaliyeNo.invalid">{{getValidationErrorMessage()}}</mat-error>
+                  </mat-form-field> 
+
+        </div>
+        <div class="col-md-8">
+
+          <p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
+          
+          <p-dropdown [options]="satilanUrunListesi"  optionLabel="urunAdi" placeholder="Ürün Seçiniz.." filter="true" emptyFilterMessage="Sonuç Bulunamadı." [style]="{'width': '400px'}" (onChange)="UrunSec($event)"></p-dropdown>
+          
+
+              <table mat-table [dataSource]="dataSource">
+                
+                <ng-container matColumnDef="urunAdi" >
+                  <th mat-header-cell *matHeaderCellDef> Ürün Adi </th>
+                  <td mat-cell *matCellDef="let element" style="width:20%;"> {{element.urunAdi}} </td>
+                  <td mat-footer-cell *matFooterCellDef> Toplam </td>
+                </ng-container>
+              
+               
+                <ng-container matColumnDef="fiyat" style>
+                  <th mat-header-cell *matHeaderCellDef> Fiyat </th>
+                  <td mat-cell *matCellDef="let element" style="width:5%;"> {{element.fiyat}} </td>
+                  <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+
+             
+                <ng-container matColumnDef="kdv">
+                  <th mat-header-cell *matHeaderCellDef> Kdv </th>
+                  <td mat-cell *matCellDef="let element" style="width:5%;"> {{element.kdv}} </td>
+                  <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+                
+
+                <ng-container matColumnDef="miktar">
+                  <th mat-header-cell *matHeaderCellDef> Miktar </th>
+                  <td mat-cell *matCellDef="let element" style="width:8%;"><input matInput  [(ngModel)]="element.miktar" style="width:40% ;border-style: groove"  (focusout)="FocusOut(element)" > </td>
+                  <td mat-footer-cell *matFooterCellDef> </td>
+                </ng-container>
+               
+                <ng-container matColumnDef="kdvTutar">
+                  <th mat-header-cell *matHeaderCellDef> Kdv Tutar </th>
+                  <td mat-cell *matCellDef="let element" style="width:5%;" >  <strong><input  disabled matInput [(ngModel)]="element.kdvTutar"></strong></td>
+                  <td mat-footer-cell *matFooterCellDef >{{ToplamKdvTutar()}} </td>
+                </ng-container>
+
+                
+                <ng-container matColumnDef="tutar">
+                  <th mat-header-cell *matHeaderCellDef> Tutar </th>
+                  <td mat-cell *matCellDef="let element" style="width:5%;" >  <strong>
+                    <input disabled matInput [(ngModel)]="element.tutar" >
+                  </strong> </td>
+                  <td mat-footer-cell *matFooterCellDef > {{ToplamTutar()}} </td>
+                </ng-container>
+                
+
+                <ng-container matColumnDef="islemler">
+                  <th mat-header-cell *matHeaderCellDef>  </th>
+                  <td mat-cell *matCellDef="let element=index" style="width:5%;" > <a mat-icon-button matTooltip="Çıkart"  (click)="RowSil(element)" >
+                    <mat-icon>remove_circle</mat-icon>
+                      </a> </td>
+                  <td mat-footer-cell *matFooterCellDef></td>
+                </ng-container>
+              
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+              </table>
+
+
+
+              <br><br>
+
+              <button id="Ekle" mat-raised-button style="width: 40%; float: right;" color="primary" (click)="IrsaliyeEkle(+irsaliyeNo.value)">Irsaliye Ekle</button>
+              
+              <button id="Guncelle" mat-raised-button style="width: 40%; float: right;display: none;" color="primary"  (click)="IrsaliyeGuncelle(+irsaliyeNo.value)">Irsaliye Güncelle</button>
+
+              <br><br><br>
+        </div>
+    </div>
+</div>

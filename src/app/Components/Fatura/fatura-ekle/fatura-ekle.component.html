@@ -1,0 +1,131 @@
+<div class="container-small">
+    <div class="row mat-elevation-z8" style="margin-top: 10px;">
+        <div   class=" col-md-12">
+            <input style="display: none;" #faturaId>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Fatura Tarihi</mat-label>
+                <input  matInput [matDatepicker]="picker1" [ngModel]="faturaTarih | date:'yyyy-MM-dd'" (ngModelChange)="faturaTarih = $event" [formControl]="vdFaturaTarih" required>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error *ngIf="vdFaturaTarih.invalid">{{getValidationErrorMessage()}}</mat-error>
+            </mat-form-field>
+            
+            <p-dropdown [options]="musteriListesi" optionLabel="musteriAdi"  [(ngModel)]="valueMusteriListesi" [formControl]="vdMusteriId" placeholder="Müşteri Adı" filter="true" emptyFilterMessage="Sonuç Bulunamadı." [style]="{'margin-top':'-10px','height': '50px','width':'260px'}"  ></p-dropdown>
+
+                <mat-form-field appearance="outline">
+                    <mat-label >Fatura Numarası </mat-label>
+                    <input #faturaNo type="number" matInput [formControl]="vdFaturaNo" required maxlength="50">
+                    <mat-error *ngIf="vdFaturaNo.invalid">{{getValidationErrorMessage()}}</mat-error>
+                  </mat-form-field> 
+
+                  <hr>
+        </div>
+        <div class="col-md-12">
+
+            <p-toast [style]="{marginTop: '80px'}" position="bottom-right"></p-toast>
+          
+
+            <mat-form-field appearance="outline" >
+                <mat-label>İrsaliye Başlangıç Tarihi</mat-label>
+                <input  matInput [matDatepicker]="picker2" [ngModel]="irsaliyeBaslangicTarih | date:'yyyy-MM-dd'" (ngModelChange)="irsaliyeBaslangicTarih = $event" [formControl]="vdIrsaliyeBaslangicTarih" required>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+                <mat-error *ngIf="vdIrsaliyeBaslangicTarih.invalid">{{getValidationErrorMessage()}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" >
+                <mat-label>İrsaliye Bitiş Tarihi</mat-label>
+                <input  matInput [matDatepicker]="picker3" [ngModel]="irsaliyeBitisTarih | date:'yyyy-MM-dd'" (ngModelChange)="irsaliyeBitisTarih = $event" [formControl]="vdIrsaliyeBitisTarih" required>
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+                <mat-error *ngIf="vdIrsaliyeBitisTarih.invalid">{{getValidationErrorMessage()}}</mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" matTooltip="İrsaliye Getir" (click)="IrsaliyeGetForFaturaAdd()">
+                <mat-icon>search</mat-icon>
+              </button>
+              
+              <div *ngIf="irsaliyeListesi.length>0 else ilkGosterim">
+                <table mat-table [dataSource]="dataSource">
+                  
+                  <ng-container matColumnDef="irsaliyeNo" >
+                    <th mat-header-cell *matHeaderCellDef> İrsaliye No </th>
+                    <td mat-cell *matCellDef="let element" style="width:5%;"> {{element.irsaliyeNo}} </td>
+                    <td mat-footer-cell *matFooterCellDef> Toplam </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="irsaliyeTarih" >
+                    <th mat-header-cell *matHeaderCellDef> İrsaliye Tarih </th>
+                    <td mat-cell *matCellDef="let element" style="width:5%;"> {{element.tarihString}} </td>
+                    <td mat-footer-cell *matFooterCellDef>  </td>
+                  </ng-container>
+
+                    <ng-container matColumnDef="urunAdi" >
+                      <th mat-header-cell *matHeaderCellDef> Ürün Adi </th>
+                      <td mat-cell *matCellDef="let element" style="width:20%;"> {{element.urunAdi}} </td>
+                      <td mat-footer-cell *matFooterCellDef>  </td>
+                    </ng-container>
+                  
+                   
+                    <ng-container matColumnDef="fiyat" style>
+                      <th mat-header-cell *matHeaderCellDef> Fiyat </th>
+                      <td mat-cell *matCellDef="let element" style="width:5%;"> {{element.fiyat}} </td>
+                      <td mat-footer-cell *matFooterCellDef> </td>
+                    </ng-container>
+    
+                 
+                    <ng-container matColumnDef="kdv">
+                      <th mat-header-cell *matHeaderCellDef> Kdv </th>
+                      <td mat-cell *matCellDef="let element" style="width:5%;"> {{element.kdv}} </td>
+                      <td mat-footer-cell *matFooterCellDef> </td>
+                    </ng-container>
+                    
+    
+                    <ng-container matColumnDef="miktar">
+                      <th mat-header-cell *matHeaderCellDef> Miktar </th>
+                      <td mat-cell *matCellDef="let element" style="width:5%;"> {{element.miktar}} </td>
+                      <td mat-footer-cell *matFooterCellDef> </td>
+                    </ng-container>
+                   
+                    <ng-container matColumnDef="kdvTutar">
+                      <th mat-header-cell *matHeaderCellDef> Kdv Tutar </th>
+                      <td mat-cell *matCellDef="let element" style="width:5%;"  >{{element.kdvTutar}}</td>
+                      <td mat-footer-cell *matFooterCellDef  >{{topKdvTutar}} </td>
+                    </ng-container>
+    
+                    
+                    <ng-container matColumnDef="tutar">
+                      <th mat-header-cell *matHeaderCellDef> Tutar </th>
+                      <td mat-cell *matCellDef="let element" style="width:5%;"  >{{element.tutar}} </td>
+                      <td mat-footer-cell *matFooterCellDef  > {{topTutar}} </td>
+                    </ng-container>
+                    
+    
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+                  </table>
+    
+    
+    
+                  <br><br>
+    
+                  
+              </div>
+              <button id="ekleFatura" mat-raised-button style="width: 20%; float: right; display: none;" color="primary" (click)="FaturaAdd(+faturaNo.value)" >Fatura Ekle</button>
+                  
+                  <button id="guncelleFatura" mat-raised-button style="width: 20%; float: right; display: none;" color="primary" (click)="FaturaGuncelle(+faturaNo.value)">Fatura Güncelle</button>
+                  <br><br>
+              <ng-template #ilkGosterim>
+                <div style="margin-top: 100px;">
+                 <i>
+                  Fatura Ekleme işlemine devam edebilmek için irsaliye başlangıç ve bitiş tarihlerini giriniz...
+                 </i> 
+                </div>
+              </ng-template>
+               
+        </div>
+    </div>
+</div>
