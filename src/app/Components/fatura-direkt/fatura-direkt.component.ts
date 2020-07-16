@@ -84,7 +84,7 @@ export class FaturaDirektComponent implements OnInit {
         return false;
       }
 
-      return true;
+       return true;
       
     })
 
