@@ -161,6 +161,7 @@ export class OdemelerComponent implements OnInit {
       message: 'Silme İşlemini Onaylıyor musunuz?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
+      key:'odeme',
       accept: () => {
         this.silinecekOdemeId=odemeId;
           this.OdemeSil();

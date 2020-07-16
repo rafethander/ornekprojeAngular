@@ -80,6 +80,7 @@ export class SatilanUrunlerComponent implements OnInit {
       message: 'Silme İşlemini Onaylıyor musunuz?',
       header:'Confirmation',
       icon:'pi pi-exclamation-triangle',
+      key:'satilanUrun',
       accept: ()=>{
         this.SatilanUrunSil(satilanUrunId);
       },

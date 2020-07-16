@@ -133,6 +133,7 @@ export class TahsilatComponent implements OnInit {
       message: 'Silme İşlemini Onaylıyor musunuz?',
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
+      key:'tahsilat',
       accept: () => {
          let tahsilatId=id;
          console.log(tahsilatId);

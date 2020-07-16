@@ -13,6 +13,8 @@ import { FaturaListeleComponent } from './Components/Fatura/fatura-listele/fatur
 import { TahsilatComponent } from './Components/tahsilat/tahsilat.component';
 import { LoginComponent } from './Components/login/login.component';
 import { IsLoginGuard } from './IsLoginGuard';
+import { pathToFileURL } from 'url';
+import { FaturaDirektComponent } from './Components/fatura-direkt/fatura-direkt.component';
 
 
 
@@ -22,18 +24,19 @@ const routes: Routes = [
   
   { path: '', component: LoginComponent },
   { path: 'anasayfa', component: AnasayfaComponent ,canActivate: [IsLoginGuard]},
-  { path: 'musteri', component: MusteriComponent,canActivate: [IsLoginGuard] },
-  { path: 'alinanUrunler', component: AlinanUrunlerComponent ,canActivate: [IsLoginGuard]},
-  { path: 'satilanUrunler', component: SatilanUrunlerComponent ,canActivate: [IsLoginGuard]},
-  { path: 'odemeler', component: OdemelerComponent,canActivate: [IsLoginGuard] },
-  { path: 'irsaliyeEkle/:irsaliyeNo', component: IrsaliyeEkleComponent ,canActivate: [IsLoginGuard]},
-  { path: 'irsaliyeEkle', component: IrsaliyeEkleComponent,canActivate: [IsLoginGuard] },
-  { path: 'irsaliyeListele', component: IrsaliyeListeleComponent,canActivate: [IsLoginGuard] },
-  { path: 'faturaEkle/:faturaNo', component: FaturaEkleComponent,canActivate: [IsLoginGuard] },
-  { path: 'faturaEkle', component: FaturaEkleComponent ,canActivate: [IsLoginGuard]},
-  { path: 'faturaListele', component: FaturaListeleComponent,canActivate: [IsLoginGuard] },
-  { path: 'tahsilat', component: TahsilatComponent ,canActivate: [IsLoginGuard]},
-  { path: '**', component: NotFoundComponent,canActivate: [IsLoginGuard] }
+  { path: 'musteri', component: MusteriComponent },
+  { path: 'alinanUrunler', component: AlinanUrunlerComponent },
+  { path: 'satilanUrunler', component: SatilanUrunlerComponent },
+  { path: 'odemeler', component: OdemelerComponent },
+  { path: 'irsaliyeEkle/:irsaliyeNo', component: IrsaliyeEkleComponent },
+  { path: 'irsaliyeEkle', component: IrsaliyeEkleComponent},
+  { path: 'irsaliyeListele', component: IrsaliyeListeleComponent},
+  { path: 'faturaEkle/:faturaNo', component: FaturaEkleComponent },
+  { path: 'faturaEkle', component: FaturaEkleComponent },
+  { path: 'faturaListele', component: FaturaListeleComponent },
+  { path: 'tahsilat', component: TahsilatComponent },
+  { path: 'faturaDirekt', component: FaturaDirektComponent },
+  { path: '**', component: NotFoundComponent}
   
 ];
 

@@ -11,7 +11,7 @@ import { MessageService } from 'primeng/api';
 })
 export class AlinanUrunService {
 
-  private AlinanUrunUrl='https://firinwebapi20200606003136.azurewebsites.net/api/AlinanUrun/';
+  private AlinanUrunUrl='http://localhost:65455/api/AlinanUrun/';
 
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token')})

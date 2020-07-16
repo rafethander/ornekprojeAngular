@@ -11,7 +11,7 @@ import { MessageService } from 'primeng/api';
 })
 export class LoginService {
 
-  private url="https://firinwebapi20200606003136.azurewebsites.net/api/Kullanici/";
+  private url="http://localhost:65455/api/Kullanici/";
   httpOptions={headers:new HttpHeaders({'Content-Type':'application/json'})}
   
 

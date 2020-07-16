@@ -5,13 +5,14 @@ import { Fatura } from '../Models/Fatura';
 import { GetResult } from '../Models/GetResult';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
+import { Irsaliye } from '../Models/Irsaliye';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FaturaService {
 
-  private faturaUrl="https://firinwebapi20200606003136.azurewebsites.net/api/Fatura/";
+  private faturaUrl="http://localhost:65455/api/Fatura/";
 
 
   private httpOptions={
@@ -48,6 +49,13 @@ export class FaturaService {
   FaturaGuncelleGetir(faturaNo: number): Observable<any[]>{
     return this.http.post(`${this.faturaUrl}GetWithFaturaNo/${faturaNo}`,this.httpOptions)
     .pipe(catchError(this.hataYakala<any>('FaturaGuncelleGetir')))
+  }
+
+  FaturaDirektAdd(fatura: Irsaliye): Observable<GetResult>{
+   return this.http.post<Irsaliye>(`${this.faturaUrl}DirektAdd`,fatura,this.httpOptions)
+          .pipe(
+            catchError(this.hataYakala<any>('Fatura Direkt Add'))
+          );
   }
 
 

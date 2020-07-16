@@ -1,8 +1,11 @@
-import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+import { SelectControlValueAccessor } from '@angular/forms';
+import { LoginComponent } from './Components/login/login.component';
 
 
 @Component({
@@ -22,12 +25,13 @@ export class AppComponent  implements OnDestroy{
 
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,public rota: ActivatedRoute,router: Router) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,public rota: ActivatedRoute,private router: Router,private confirmService: ConfirmationService) {
     router.events.forEach((event)=>{
       if(event instanceof NavigationStart){
         this.showMenu=event.url != "/";
       }
     });
+
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -36,9 +40,7 @@ export class AppComponent  implements OnDestroy{
     
   }
 
-  
-  
-  
+  @ViewChild ('snav') snav: ElementRef;
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
@@ -49,6 +51,25 @@ export class AppComponent  implements OnDestroy{
   dataSource = new MatTreeNestedDataSource<FoodNode>();
   
   hasChild = (_: number, node: FoodNode) => !!node.children && node.children.length > 0;
+
+  
+
+  
+  Cikis(): void{
+
+    this.confirmService.confirm({
+      message:'Çıkış İşlemini Onaylıyor musunuz?',
+      header:'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () =>{
+        localStorage.removeItem('token');
+        window.location.replace('http://localhost:4200/');
+      },
+      reject: ()=>{
+
+      }
+  });
+}
 
   
 }
@@ -80,8 +101,8 @@ const TREE_DATA: FoodNode[] = [
     name: 'Fatura',
     children: [
       {name: 'Fatura Ekle',pathname:'faturaEkle'},
-      {name: 'Fatura Listele',pathname:'faturaListele'}
-     
+      {name: 'Fatura Listele',pathname:'faturaListele'},
+      {name:'Fatura Direkt',pathname:'faturaDirekt'}
     ]
    }
 ]

@@ -178,6 +178,7 @@ export class AlinanUrunlerComponent implements OnInit {
       message:'Silme İşlemini Onaylıyor musunuz?',
       header:'Confirmation',
       icon: 'pi pi-exclamation-triangle',
+      key:'alinanUrun',
       accept: () =>{
         this.AlinanUrunSil(alinanUrunId);
       },

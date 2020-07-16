@@ -58,6 +58,7 @@ export class FaturaListeleComponent implements OnInit {
       message: `Fatura Numarası '${faturaNo}' Olarak Kayıtlı Verileri Silmeyi Onaylıyor musunuz?`,
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
+      key:'faturaListele',
       accept: () => {
         this.faturaService.FaturaDelete(faturaNo).subscribe(sonuc=>{
 

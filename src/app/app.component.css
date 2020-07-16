@@ -52,3 +52,8 @@ h1.example-app-name {
 }
 
 
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+

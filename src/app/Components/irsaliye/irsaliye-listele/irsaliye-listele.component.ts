@@ -63,6 +63,7 @@ export class IrsaliyeListeleComponent implements OnInit {
       message: `İrsaliye Numarası '${irsaliyeNo}' Olarak Kayıtlı Verileri Silmeyi Onaylıyor musunuz?`,
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
+      key:'irsaliyeListele',
       accept: () => {
         this.irsaliyeService.IrsaliyeDelete(irsaliyeNo).subscribe(sonuc=>{
 

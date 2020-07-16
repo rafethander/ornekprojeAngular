@@ -11,7 +11,7 @@ import { MessageService } from 'primeng/api';
 })
 export class SatilanUrunService {
 
-  private satilanUrunUrl='https://firinwebapi20200606003136.azurewebsites.net/api/SatilanUrun/';
+  private satilanUrunUrl='http://localhost:65455/api/SatilanUrun/';
 
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token')})

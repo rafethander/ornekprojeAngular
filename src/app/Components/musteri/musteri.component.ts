@@ -148,6 +148,7 @@ export class MusteriComponent implements OnInit {
         message: 'Silme İşlemini Onaylıyor musunuz?',
         header: 'Confirmation',
         icon: 'pi pi-exclamation-triangle',
+        key:'musteri',
         accept: () => {
           this.silinecekMusteriId=musteriId;
             this.MusteriSil();

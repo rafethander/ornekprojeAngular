@@ -23,7 +23,8 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import { ReactiveFormsModule } from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
-
+import {InputNumberModule} from 'primeng/inputnumber';
+import {CalendarModule} from 'primeng/calendar';
 
 
 
@@ -54,6 +55,7 @@ import { FaturaEkleComponent } from './Components/Fatura/fatura-ekle/fatura-ekle
 import { FaturaListeleComponent } from './Components/Fatura/fatura-listele/fatura-listele.component';
 import { TahsilatComponent } from './Components/tahsilat/tahsilat.component';
 import { LoginComponent } from './Components/login/login.component';
+import { FaturaDirektComponent } from './Components/fatura-direkt/fatura-direkt.component';
 
 
 
@@ -73,7 +75,8 @@ import { LoginComponent } from './Components/login/login.component';
     FaturaEkleComponent,
     FaturaListeleComponent,
     TahsilatComponent,
-    LoginComponent
+    LoginComponent,
+    FaturaDirektComponent
 
     ],
   imports: [
@@ -108,7 +111,9 @@ import { LoginComponent } from './Components/login/login.component';
     MessagesModule,
     MessageModule,
     ReactiveFormsModule,
-    DropdownModule
+    DropdownModule,
+    CalendarModule,
+    InputNumberModule
 
   ],
   providers: [

@@ -5,9 +5,13 @@
     <mat-toolbar color="primary" class="example-toolbar">
       <button mat-icon-button (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
       <h1 class="example-app-name">Rafet HANDER</h1>
+      <span class="example-spacer"></span>
+      <button pButton type="button" label="Çıkış" class="ui-button-rounded ui-button-secondary" (click)="Cikis()"></button>
     </mat-toolbar>
   </div>
-     
+  
+  <!-- Çıkış Onay -->
+  <p-confirmDialog [style]="{width: '50vw'}" [baseZIndex]="10000"></p-confirmDialog>
   
     
     <mat-sidenav-container class="example-sidenav-container"
@@ -54,11 +58,14 @@
       <mat-sidenav-content>
         <div class=" container">
 
-         
-            <router-outlet></router-outlet>
+          <router-outlet></router-outlet>
+           
+            
         </div>
       </mat-sidenav-content>
     </mat-sidenav-container>
+  
+  
   </div>
   
   

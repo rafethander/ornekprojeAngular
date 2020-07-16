@@ -12,7 +12,7 @@ import { MessageService } from 'primeng/api';
 export class OdemeService {
 
 
-  private OdemeUrl='https://firinwebapi20200606003136.azurewebsites.net/api/Odeme/';
+  private OdemeUrl='http://localhost:65455/api/Odeme/';
 
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json'})

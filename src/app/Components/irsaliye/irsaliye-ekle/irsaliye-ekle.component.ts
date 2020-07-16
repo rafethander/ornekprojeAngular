@@ -233,8 +233,8 @@ export class IrsaliyeEkleComponent implements OnInit {
   
     FocusOut(element) 
     {
-      element.tutar= +element.miktar * element.fiyat;
-      element.kdvTutar=element.tutar*(element.kdv/100);
+      element.tutar= (+element.miktar * element.fiyat).toFixed(2);
+      element.kdvTutar=(element.tutar*(element.kdv/100)).toFixed(2);
       
     }
 
@@ -244,11 +244,13 @@ export class IrsaliyeEkleComponent implements OnInit {
     }
   
     ToplamKdvTutar() {   
-      return this.satilanUrunListeKontrol.map(s=>s).reduce((topKdvTutar,sU)=>topKdvTutar+((sU.kdv/100)*sU.tutar),0);
+      let toplamKdvTutar=this.satilanUrunListeKontrol.map(s=>s).reduce((topKdvTutar,sU)=>topKdvTutar+((sU.kdv/100)*sU.tutar),0);
+      return toplamKdvTutar.toFixed(2);
     }
   
     ToplamTutar(){
-      return this.satilanUrunListeKontrol.map(t=>t.tutar).reduce((topTutar,tutar)=>topTutar+tutar,0);
+      let toplamTutar=this.satilanUrunListeKontrol.map(t=>t.tutar).reduce((topTutar,tutar)=>+topTutar+(+tutar),0);
+      return toplamTutar.toFixed(2);
     }
 
 

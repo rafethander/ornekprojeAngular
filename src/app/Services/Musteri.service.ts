@@ -11,7 +11,7 @@ import {MessageService} from 'primeng/api';
 })
 export class MusteriService {
 
-  private MusteriUrl='https://firinwebapi20200606003136.azurewebsites.net/api/Musteri/';
+  private MusteriUrl='http://localhost:65455/api/Musteri/';
 
   private httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token')})

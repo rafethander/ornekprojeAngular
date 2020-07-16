@@ -12,7 +12,7 @@ import { catchError } from 'rxjs/operators';
 export class TahsilatService {
 
 
-  private  url="https://firinwebapi20200606003136.azurewebsites.net/api/Tahsilat/";
+  private  url="http://localhost:65455/api/Tahsilat/";
 
   private httpOptions={
     headers: new HttpHeaders({'Content-Type':'application/json'})

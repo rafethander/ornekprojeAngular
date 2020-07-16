@@ -14,7 +14,7 @@ export class IrsaliyeService {
 
   constructor(private http: HttpClient,private messageService: MessageService) { }
 
-  private irsaliyeUrl="https://firinwebapi20200606003136.azurewebsites.net/api/Irsaliye/";
+  private irsaliyeUrl="http://localhost:65455/api/Irsaliye/";
 
   private httpOptions={
     headers:new HttpHeaders({'Content-Type':'application/json' , 'Authorization': localStorage.getItem('token')})
